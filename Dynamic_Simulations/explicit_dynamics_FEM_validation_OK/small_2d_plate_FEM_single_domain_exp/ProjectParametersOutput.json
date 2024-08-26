@@ -107,7 +107,7 @@
                     "mesh_id": 0,
                     "model_part_name": "Structure.DISPLACEMENT_Dirichlet_BC",
                     "value": [
-                        0.0,
+                        0.02,
                         0.0,
                         0.0
                     ],
@@ -202,7 +202,7 @@
         "time_integration_method": "explicit",
         "time_step_prediction_level": 0,
         "time_stepping": {
-            "time_step": 0.01
+            "time_step": 0.001
         },
         "use_old_stiffness_in_first_iteration": false,
         "volumetric_strain_dofs": false

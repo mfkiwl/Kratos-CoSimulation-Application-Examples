@@ -24,7 +24,7 @@
             "materials_filename" : "StructuralMaterials.json"
         },
         "time_stepping"                      : {
-            "time_step" : 0.01
+            "time_step" : 0.001
         },
         "line_search"                        : false,
         "convergence_criterion"              : "residual_criterion",
@@ -45,7 +45,7 @@
                 "variable_name"   : "DISPLACEMENT",
                 "interval"        : [0.0,"End"],
                 "constrained"     : [true,true,true],
-                "value"           : [0.0,0.0,0.0]
+                "value"           : [0.02,0.0,0.0]
             }
         }],
         "loads_process_list"       : [{

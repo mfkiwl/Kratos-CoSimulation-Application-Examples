@@ -11,15 +11,15 @@ z_disp = []
     
 for line in lines:
     split = line.split()
-    if(split[0] == '1'):
-    	z_disp.append(float(split[1]))
+    if(split[0] == '2'):
+    	z_disp.append(float(split[2]))
     	
 #print(z_disp)
 #print(len(z_disp))
 
+time_step = 0.035
+end_time = 27*time_step
 
-time_step = 0.0025
-end_time = 4253*time_step
 
 time = np.arange(0.0, end_time, time_step).tolist()
 #print(time)

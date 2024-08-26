@@ -17,11 +17,11 @@ for line in lines:
 #print(z_disp)
 #print(len(z_disp))
 
+time_step = 0.01
+end_time = 20.0
 
-time_step = 0.0025
-end_time = 4253*time_step
 
-time = np.arange(0.0, end_time, time_step).tolist()
+time = np.arange(0, end_time, time_step).tolist()
 #print(time)
 #print(len(time))
 
