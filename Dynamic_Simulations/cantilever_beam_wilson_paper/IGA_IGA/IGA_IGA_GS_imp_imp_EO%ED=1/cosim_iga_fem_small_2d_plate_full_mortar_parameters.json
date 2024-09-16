@@ -12,7 +12,7 @@
         "type" : "coupled_solvers.gauss_seidel_strong",
        "echo_level" : 4,
         "num_coupling_iterations" : 10,
-       "convergence_accelerators" : [
+        "convergence_accelerators" : [
             {
                 "type"      : "mvqn",
                 "solver"    : "fem_fem_test_domainA",

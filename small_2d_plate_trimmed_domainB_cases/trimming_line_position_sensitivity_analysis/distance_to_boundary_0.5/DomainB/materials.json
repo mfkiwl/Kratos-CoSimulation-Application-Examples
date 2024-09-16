@@ -19,7 +19,7 @@
       "model_part_name": "IgaModelPart.Support_2",
       "properties_id": 2,
       "Material": {
-        "Variables": { "PENALTY_FACTOR": 10000000000.1 },
+        "Variables": { "PENALTY_FACTOR": 0.0 },
         "Tables": {}
       }
     }

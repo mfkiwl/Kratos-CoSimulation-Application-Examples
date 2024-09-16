@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt 
 
+plt.rcParams.update({'font.size': 16}) 
+
+
 # Process the FEM Monolithic data
 with open ('tip_y_displacement_monolithic.json','r') as f_fem_mono:
     lines_fem_mono = f_fem_mono.readlines()
@@ -84,15 +87,15 @@ end_time = 2.765
 
 time = np.arange(0, end_time, time_step).tolist()
 
-plt.plot(time, y_disp_fem_mono, label='FEM Monolithic')  
-plt.plot(time, y_disp_iga_mono, label='IGA Monolithic')  
-plt.plot(time, y_disp_iga_part, label='IGA-IGA Partitioned')  
-plt.plot(time, y_disp_fem_part, label='FEM-FEM Partitioned') 
-plt.plot(time, y_disp_fem_iga_part, label='FEM-IGA Partitioned')  
+plt.plot(time, y_disp_fem_mono, label=r'FEM Monolithic')  
+plt.plot(time, y_disp_iga_mono, label=r'IGA Monolithic')  
+plt.plot(time, y_disp_iga_part, label=r'IGA-IGA Partitioned')  
+plt.plot(time, y_disp_fem_part, label=r'FEM-FEM Partitioned') 
+plt.plot(time, y_disp_fem_iga_part, label=r'FEM-IGA Partitioned')  
  
-plt.title('y-displacement curve of the Cantilever Beam Tip')
-plt.xlabel('time [s]')
-plt.ylabel('v [m]')
+plt.title(r'y-displacement curve of the Cantilever Beam Tip ($E_O/E_D=1$)')
+plt.xlabel(r'time [s]')
+plt.ylabel(r'y-displacement [m]')
 plt.legend()
 
 plt.ylim(bottom=-0.30, top=0.02)  # y-axis limits

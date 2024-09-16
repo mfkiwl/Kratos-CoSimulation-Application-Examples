@@ -108,7 +108,7 @@
         "convergence_criterion": "residual_criterion",
         "displacement_absolute_tolerance": 1e-09,
         "displacement_control": false,
-        "displacement_relative_tolerance": 0.0001,
+        "displacement_relative_tolerance": 1e-08,
         "domain_size": 1,
         "echo_level": 3,
         "linear_solver_settings": {
@@ -131,7 +131,7 @@
         "pressure_dofs": false,
         "reform_dofs_at_each_step": false,
         "residual_absolute_tolerance": 1e-09,
-        "residual_relative_tolerance": 0.0001,
+        "residual_relative_tolerance": 1e-08,
         "rotation_dofs": false,
         "solver_type": "static",
         "solving_strategy_settings": {

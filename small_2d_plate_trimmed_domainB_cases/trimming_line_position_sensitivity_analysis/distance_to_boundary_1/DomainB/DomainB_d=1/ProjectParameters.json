@@ -98,7 +98,7 @@
           "mesh_id": 0,
           "model_part_name": "IgaModelPart.Support_2",
           "variable_name": "DISPLACEMENT",
-          "value": [ 0, 0, 0 ],
+          "value": [ 0.003, 0, 0 ],
           "interval": [ 0, "End" ]
         }
       }

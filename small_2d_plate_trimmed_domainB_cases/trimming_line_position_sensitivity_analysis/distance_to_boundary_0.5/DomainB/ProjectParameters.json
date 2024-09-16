@@ -90,19 +90,6 @@
         }
       }
     ],
-    "dirichlet_process_list": [
-      {
-        "kratos_module": "KratosMultiphysics",
-        "python_module": "assign_vector_variable_to_conditions_process",
-        "Parameters": {
-          "mesh_id": 0,
-          "model_part_name": "IgaModelPart.Support_2",
-          "variable_name": "DISPLACEMENT",
-          "value": [ 0, 0, 0 ],
-          "interval": [ 0, "End" ]
-        }
-      }
-    ],
     "neumann_process_list": [
       {
         "kratos_module": "KratosMultiphysics",
