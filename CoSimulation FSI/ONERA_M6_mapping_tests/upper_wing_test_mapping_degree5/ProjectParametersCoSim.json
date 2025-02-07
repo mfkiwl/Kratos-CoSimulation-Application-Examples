@@ -1,0 +1,118 @@
+{
+    "problem_data" :
+    {
+        "start_time" : 0.0,
+        "end_time" : 12.0,
+        "echo_level" : 3,
+        "print_colors" : true,
+        "parallel_type" : "OpenMP"
+    },
+    "solver_settings" :
+    {
+        "type" : "coupled_solvers.gauss_seidel_strong",
+        "echo_level" : 3,
+        "num_coupling_iterations" : 50,
+        "convergence_accelerators" : [
+            {
+                "type"      : "mvqn",
+                "solver"    : "structure_2",
+                "data_name" : "forces"
+            }
+        ],
+        "convergence_criteria" : [
+            {
+                "type"          : "relative_norm_previous_residual",
+                "solver"        : "structure_2",
+                "data_name"     : "forces",
+                "abs_tolerance" : 1e-6,
+                "rel_tolerance" : 1e-6
+            }
+        ],
+         "data_transfer_operators" : {
+            "mapper" : {
+                "type" : "kratos_mapping",
+					"mapper_settings" : {
+					"mapper_type": "coupling_geometry",
+					"echo_level" : 4,
+					"dual_mortar": false,
+					"consistency_scaling" : true,
+					"modeler_name" : "IgaFEMSurfaceMappingGeometriesModeler",
+					"modeler_parameters":{
+						"origin_model_part_name" : "origin",
+						"destination_model_part_name" : "destination",
+						"is_interface_sub_model_parts_specified" : true,
+						"origin_interface_sub_model_part_name" : "IgaModelPart.Load_10",
+						"destination_interface_sub_model_part_name" : "Structure.SurfaceLoad3D_Load_BC"
+					}
+				}
+            }
+        },
+        "coupling_sequence":
+        [
+            {
+                "name": "structure_2",
+                "output_data_list": [],
+                "input_data_list": []
+            },{
+                "name": "structure_1",
+                "input_data_list"  : [{
+                    "data"              : "disp",
+                    "from_solver"       : "structure_2",
+                    "from_solver_data"  : "disp",
+                    "data_transfer_operator" : "mapper"
+                }],
+                "output_data_list" : [
+                    {
+                        "data"           : "forces",
+                        "to_solver"      : "structure_2",
+                        "to_solver_data" : "forces",
+                        "data_transfer_operator" : "mapper",
+                        "data_transfer_operator_options" : ["use_transpose"]
+                    }
+                ]
+            }
+
+        ],
+        "solvers" :
+        {
+            "structure_1":
+            {
+                "type" : "solver_wrappers.kratos.structural_mechanics_wrapper",
+                "solver_wrapper_settings" : {
+                    "input_file"  : "ProjectParameters"
+                },
+                "data" : {
+                    "disp" : {
+                        "model_part_name" : "Structure.SurfaceLoad3D_Load_BC",
+                        "dimension" : 3,
+                        "variable_name" : "DISPLACEMENT"
+                    },
+                    "forces" : {
+                        "model_part_name" : "Structure.SurfaceLoad3D_Load_BC",
+                        "dimension" : 3,
+                        "variable_name" : "REACTION"
+                    }
+                }
+            },
+            "structure_2" :
+            {
+                "type" : "solver_wrappers.kratos.structural_mechanics_wrapper",
+                "solver_wrapper_settings" : {
+                    "input_file"  : "ProjectParametersIGA"
+                },
+                "data" : {
+                    "disp" : {
+                        "model_part_name" : "IgaModelPart.Load_10",
+                        "dimension" : 3,
+                        "variable_name" : "DISPLACEMENT"
+                    },
+                    "forces" : {
+                        "model_part_name" : "IgaModelPart.Load_10",
+                        "dimension" : 3,
+                        "variable_name" : "POINT_LOAD"
+                    }
+                }
+            }
+        }
+    }
+}

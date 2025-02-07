@@ -1,0 +1,69 @@
+Begin ModelPartData
+//  VARIABLE_NAME value
+End ModelPartData
+
+Begin Properties 0
+End Properties
+Begin Nodes
+    1   0.2511290000   0.0935082000   0.0362298000
+    2   0.2371800000   0.1409201000   0.0335031000
+    3   0.2783945000   0.1433026000   0.0356295000
+    4   0.2644455000   0.1907145000   0.0329028000
+    5   0.2232310000   0.1883320000   0.0307764000
+    6   0.3056600000   0.1930970000   0.0350292000
+End Nodes
+
+
+Begin Elements ShellThinElementCorotational3D3N// GUI group identifier: Shell
+        1          0     5     4     2 
+        2          0     4     6     3 
+        3          0     1     2     3 
+        4          0     3     2     4 
+End Elements
+
+Begin Conditions SurfaceLoadCondition3D3N// GUI group identifier: Load_BC
+    2 0 5 4 2
+    3 0 4 6 3
+    4 0 1 2 3
+    5 0 3 2 4
+End Conditions
+
+Begin SubModelPart Parts_Shell_Shell // Group Shell // Subtree Parts_Shell
+    Begin SubModelPartNodes
+            1
+            2
+            3
+            4
+            5
+            6
+    End SubModelPartNodes
+    Begin SubModelPartElements
+            1
+            2
+            3
+            4
+    End SubModelPartElements
+End SubModelPart
+Begin SubModelPart DISPLACEMENT_DC_BC // Group DC_BC // Subtree DISPLACEMENT
+    Begin SubModelPartNodes
+            4
+            5
+            6
+    End SubModelPartNodes
+End SubModelPart
+Begin SubModelPart SurfaceLoad3D_Load_BC // Group Load_BC // Subtree SurfaceLoad3D
+    Begin SubModelPartNodes
+            1
+            2
+            3
+            4
+            5
+            6
+    End SubModelPartNodes
+    Begin SubModelPartConditions
+            2
+            3
+            4
+            5
+    End SubModelPartConditions
+End SubModelPart
