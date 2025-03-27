@@ -13,7 +13,7 @@
                     "file_format": "ascii",
                     "gauss_point_variables_extrapolated_to_nodes": [],
                     "gauss_point_variables_in_elements": [],
-                    "model_part_name": "StructureB",
+                    "model_part_name": "StructureA",
                     "nodal_data_value_variables": [],
                     "nodal_flags": [],
                     "nodal_solution_step_data_variables": [
@@ -23,7 +23,7 @@
                     ],
                     "output_control_type": "step",
                     "output_interval": 1,
-                    "output_path": "fem_fem_test_domainB_results_1",
+                    "output_path": "fem_fem_test_domainA_results_1",
                     "output_precision": 7,
                     "output_sub_model_parts": false,
                     "save_output_files_in_folder": true,
@@ -40,8 +40,8 @@
     "print_output_process": [
         {
             "Parameters": {
-                "model_part_name": "StructureB",
-                "output_file_name": "fem_fem_test_domainB_results_1.json",
+                "model_part_name": "StructureA",
+                "output_file_name": "fem_fem_test_domainA_results_1.json",
                 "output_variables": [
                     "DISPLACEMENT",
                     "POINT_LOAD",
@@ -59,7 +59,7 @@
         "echo_level": 4,
         "end_time": 1.0,
         "parallel_type": "OpenMP",
-        "problem_name": "fem_fem_test_domainB",
+        "problem_name": "fem_fem_test_domainA",
         "start_time": 0.0
     },
     "processes": {
@@ -71,16 +71,23 @@
                         true,
                         true
                     ],
+                    "help": "This process assigns a given value (vector) to the nodes belonging a certain submodelpart",
                     "interval": [
                         0.0,
-                        1e+30
+                        "End"
                     ],
-                    "model_part_name": "StructureB.DISPLACEMENT_left_edge",
+                    "local_axes": {},
+                    "mesh_id": 0,
+                    "model_part_name": "StructureA.DISPLACEMENT_left_edge",
+                    "value": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
                     "variable_name": "DISPLACEMENT"
                 },
-                "help": "This process fixes the selected components of a given vector variable",
                 "kratos_module": "KratosMultiphysics",
-                "python_module": "fix_vector_variable_process"
+                "python_module": "assign_vector_variable_process"
             }
         ],
         "list_other_processes": [
@@ -96,8 +103,8 @@
                     "gauss_points_check_variables": [],
                     "help": "This process checks the solution obtained from a given json file. It can be used for generating tests for a problem",
                     "historical_value": true,
-                    "input_file_name": "fem_fem_test_domainB_results.json",
-                    "model_part_name": "StructureB",
+                    "input_file_name": "fem_fem_test_domainA_results.json",
+                    "model_part_name": "StructureA",
                     "relative_tolerance": 1e-06,
                     "sub_model_part_name": "",
                     "time_frequency": 1.0,
@@ -113,27 +120,17 @@
         "loads_process_list": [
             {
                 "Parameters": {
-                    "direction": [
-                        1.0,
-                        0.0,
-                        0.0
-                    ],
-                    "entities": [
-                        "conditions"
-                    ],
-                    "help": "This process sets a variable a certain scalar value in a given direction, for all the conditions belonging to a submodelpart. Uses assign_scalar_variable_to_conditions_process for each component",
-                    "interval": [
-                        0.0,
-                        1e+30
-                    ],
-                    "local_axes": {},
-                    "model_part_name": "StructureB.LineLoad2D_right_edge",
-                    "modulus": 1.0,
-                    "variable_name": "LINE_LOAD"
+                    "entity_name": "PointLoadCondition3D1N",
+                    "entity_type": "condition",
+                    "initialize_communicators": false,
+                    "kratos_application": "",
+                    "model_part_name": "StructureA.LineLoad2D_right_edge",
+                    "new_sub_model_part_name": "PLEASE_SPECIFY",
+                    "properties_id": 0,
+                    "sub_model_part_names": []
                 },
-                "check": "DirectorVectorNonZero direction",
-                "kratos_module": "KratosMultiphysics",
-                "python_module": "assign_vector_by_direction_to_condition_process"
+                "kratos_module": "KratosMultiphysics.CoSimulationApplication.processes",
+                "python_module": "create_point_based_entites_process"
             }
         ]
     },
@@ -164,21 +161,21 @@
         "domain_size": 2,
         "echo_level": 3,
         "linear_solver_settings": {
-            "solver_type": "LinearSolversApplication.sparse_qr"
+            "solver_type": "LinearSolversApplication.pardiso_lu"
         },
         "material_import_settings": {
-            "materials_filename": "StructuralMaterialsB.json"
+            "materials_filename": "StructuralMaterialsA.json"
         },
         "max_iteration": 10,
         "model_import_settings": {
             "ignore_variables_not_in_solution_step_data": false,
-            "input_filename": "fem_fem_test_domainB",
+            "input_filename": "fem_fem_test_domainA",
             "input_type": "mdpa",
             "reorder": false,
             "reorder_consecutive": false,
             "skip_timer": true
         },
-        "model_part_name": "StructureB",
+        "model_part_name": "StructureA",
         "move_mesh_flag": true,
         "multi_point_constraints_used": true,
         "pressure_dofs": false,
@@ -195,6 +192,7 @@
             "time_step": 1.1
         },
         "use_old_stiffness_in_first_iteration": false,
+        "use_orthogonal_subscales": false,
         "volumetric_strain_dofs": false
     }
 }

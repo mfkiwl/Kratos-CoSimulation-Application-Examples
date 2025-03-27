@@ -23,7 +23,7 @@
             "time_step" : 1.1
         },
         "linear_solver_settings"             : {
-            "solver_type" : "LinearSolversApplication.sparse_qr"
+            "solver_type" : "LinearSolversApplication.pardiso_lu"
         },
         "line_search"                        : false,
         "convergence_criterion"              : "residual_criterion",
