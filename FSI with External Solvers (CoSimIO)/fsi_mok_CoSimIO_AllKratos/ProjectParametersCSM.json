@@ -8,7 +8,7 @@
     },
     "solver_settings" : {
         "solver_type"                        : "dynamic",
-        "echo_level"                         : 1,
+        "echo_level"                         : 2,
         "analysis_type"                      : "non_linear",
         "time_integration_method"            : "implicit",
         "scheme_type"                        : "newmark",

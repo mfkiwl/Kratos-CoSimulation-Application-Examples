@@ -1,0 +1,149 @@
+{
+    "problem_data" :
+    {
+        "start_time" : 0.0,
+        "end_time" : 25.0,
+        "echo_level" : 0,
+        "print_colors" : true,
+        "parallel_type" : "OpenMP"
+    },
+    "solver_settings" :
+    {
+        "type" : "coupled_solvers.gauss_seidel_strong",
+        "echo_level" : 3,
+        "num_coupling_iterations" : 20,
+        "convergence_accelerators" : [
+            {
+                "type"      : "mvqn",
+                "solver"    : "external_structure",
+                "data_name" : "load"
+            }
+        ],
+        "convergence_criteria" : [
+            {
+                "type"          : "relative_norm_previous_residual",
+                "solver"        : "external_structure",
+                "data_name"     : "load",
+                "abs_tolerance" : 1e-7,
+                "rel_tolerance" : 1e-5
+            }
+        ],
+        "data_transfer_operators" : {
+            "mapper" : {
+                "type" : "kratos_mapping",
+                "mapper_settings" : {
+                    "mapper_type" : "nearest_neighbor",
+                    "use_initial_configuration" : true
+                }
+            }
+        },
+        "coupling_sequence":
+        [
+            // {
+            //     "name": "fluid",
+            //     "input_data_list"  : [],
+            //     "output_data_list" : []
+            // },
+            // {
+            //     "name": "external_structure",
+            //     "input_data_list": [
+            //         {
+            //             "data"             : "load",
+            //             "from_solver"      : "fluid",
+            //             "from_solver_data" : "load",
+            //             "data_transfer_operator" : "mapper",
+            //             "data_transfer_operator_options" : ["swap_sign", "use_transpose"]
+            //         }
+            //     ],
+            //     "output_data_list": [
+            //         {
+            //             "data"           : "disp",
+            //             "to_solver"      : "fluid",
+            //             "to_solver_data" : "disp",
+            //             "data_transfer_operator" : "mapper"
+            //         }
+            //     ]
+            // }
+            {
+                "name": "external_structure",
+                "input_data_list"  : [],
+                "output_data_list" : []
+            },
+            {
+                "name": "fluid",
+                "input_data_list": [
+                    {
+                        "data"             : "disp",
+                        "from_solver"      : "external_structure",
+                        "from_solver_data" : "disp",
+                        "data_transfer_operator" : "mapper"
+                    }
+                ],
+                "output_data_list": [
+                    {
+                        "data"           : "load",
+                        "to_solver"      : "external_structure",
+                        "to_solver_data" : "load",
+                        "data_transfer_operator" : "mapper",
+                        "data_transfer_operator_options" : ["swap_sign","use_transpose"]
+                    }
+                ]
+            }
+        ],
+        "solvers" :
+        {
+            "fluid":
+            {
+                "type" : "solver_wrappers.kratos.fluid_dynamics_wrapper",
+                "solver_wrapper_settings" : {
+                    "input_file"  : "ProjectParametersCFD"
+                },
+                "data" : {
+                    "disp" : {
+                        "model_part_name"   : "FluidModelPart.interface",
+                        "dimension" : 2,
+                        "variable_name" : "MESH_DISPLACEMENT"
+                    },
+                    "load" : {
+                        "model_part_name"   : "FluidModelPart.interface",
+                        "dimension" : 2,
+                        "variable_name" : "REACTION"
+                    }
+                }
+            },
+            "external_structure" :
+            {
+                "type" : "solver_wrappers.external.remote_controlled_solver_wrapper",
+                "solver_wrapper_settings": {
+                    "import_meshes": [
+                        "structural_mesh"
+                    ],
+                    "export_data": [
+                        "load"
+                    ],
+                    "import_data": [
+                        "disp"
+                    ]
+                },
+                "io_settings" : {
+                    "type"       : "kratos_co_sim_io",
+                    "echo_level" : 4,
+                    "connect_to" : "run_external_structure",
+                    "communication_format" : "file"
+                },
+                "data" : {
+                    "disp" : {
+                        "model_part_name"   : "structural_mesh",
+                        "dimension" : 2,
+                        "variable_name" : "DISPLACEMENT"
+                    },
+                    "load" : {
+                        "model_part_name"   : "structural_mesh",
+                        "dimension" : 2,
+                        "variable_name" : "POINT_LOAD"
+                    }
+                }
+            }
+        }
+    }
+}
